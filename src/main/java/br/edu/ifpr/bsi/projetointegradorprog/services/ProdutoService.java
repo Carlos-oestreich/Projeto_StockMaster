@@ -81,7 +81,7 @@ public class ProdutoService {
         produtoBanco.setQuantidadeMinima(produto.getQuantidadeMinima());
 
         if (produtoBanco.getDataCadastro() != null){
-            produtoBanco.setDataCadastro(LocalDateTime.now());
+            produtoBanco.setDataCadastro(produto.getDataCadastro());
         }
 
         produtoBanco.setCategoria(categoria);

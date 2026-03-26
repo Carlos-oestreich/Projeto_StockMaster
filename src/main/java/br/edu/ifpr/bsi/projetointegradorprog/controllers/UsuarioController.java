@@ -38,7 +38,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizarUsuario(@PathVariable Long id, @RequestBody Usuario request) {
         Usuario usuarioAtualizado = this.usuarioService.atualizar(id, request);
 

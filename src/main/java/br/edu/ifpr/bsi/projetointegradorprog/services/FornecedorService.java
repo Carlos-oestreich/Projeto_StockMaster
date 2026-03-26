@@ -1,7 +1,6 @@
 package br.edu.ifpr.bsi.projetointegradorprog.services;
 
 import br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor.Fornecedor;
-import br.edu.ifpr.bsi.projetointegradorprog.repositories.CategoriaRepository;
 import br.edu.ifpr.bsi.projetointegradorprog.repositories.FornecedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +12,6 @@ public class FornecedorService {
 
     @Autowired
     private FornecedorRepository fornecedorRepository;
-    @Autowired
-    private CategoriaRepository categoriaRepository;
 
     public Fornecedor salvar(Fornecedor fornecedor){
         return fornecedorRepository.save(fornecedor);
