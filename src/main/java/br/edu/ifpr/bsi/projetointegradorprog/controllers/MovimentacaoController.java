@@ -1,7 +1,7 @@
 package br.edu.ifpr.bsi.projetointegradorprog.controllers;
 
-import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.MovimentacaoEstoque;
-import br.edu.ifpr.bsi.projetointegradorprog.services.MovimentacaoEstoqueService;
+import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
+import br.edu.ifpr.bsi.projetointegradorprog.services.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,20 +10,20 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/movimentacoes")
-public class MovimentacaoEstoqueController {
+public class MovimentacaoController {
 
     @Autowired
-    private MovimentacaoEstoqueService movimentacaoEstoqueService;
+    private MovimentacaoService movimentacaoService;
 
     @GetMapping
-    public ResponseEntity<List<MovimentacaoEstoque>> listarMovimentacoes(){
-        List<MovimentacaoEstoque> movimentacaoes = this.movimentacaoEstoqueService.listarTodos();
+    public ResponseEntity<List<Movimentacao>> listarMovimentacoes(){
+        List<Movimentacao> movimentacaoes = this.movimentacaoService.listarTodos();
         return ResponseEntity.ok(movimentacaoes);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MovimentacaoEstoque> buscarMovimentacaoEstoquePorId(@PathVariable Long id){
-        MovimentacaoEstoque movimentacao = this.movimentacaoEstoqueService.buscarPorId(id);
+    public ResponseEntity<Movimentacao> buscarMovimentacaoPorId(@PathVariable Long id){
+        Movimentacao movimentacao = this.movimentacaoService.buscarPorId(id);
 
         if(movimentacao == null){
             return ResponseEntity.notFound().build();
@@ -33,9 +33,9 @@ public class MovimentacaoEstoqueController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarMovimentacaoEstoque(@RequestBody MovimentacaoEstoque request){
+    public ResponseEntity<?> cadastrarMovimentacao(@RequestBody Movimentacao request){
         try{
-            MovimentacaoEstoque movimentacaoSalva = this.movimentacaoEstoqueService.salvar(request);
+            Movimentacao movimentacaoSalva = this.movimentacaoService.salvar(request);
             return ResponseEntity.ok(movimentacaoSalva);
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -43,9 +43,9 @@ public class MovimentacaoEstoqueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarMovimentacaoEstoque(@PathVariable Long id, @RequestBody MovimentacaoEstoque request){
+    public ResponseEntity<?> atualizarMovimentacao(@PathVariable Long id, @RequestBody Movimentacao request){
         try{
-            MovimentacaoEstoque movimentacaoAtualizada = this.movimentacaoEstoqueService.atualizar(id, request);
+            Movimentacao movimentacaoAtualizada = this.movimentacaoService.atualizar(id, request);
 
             if (movimentacaoAtualizada == null){
                 return ResponseEntity.notFound().build();
@@ -58,9 +58,9 @@ public class MovimentacaoEstoqueController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarMovimentacaoEstoque(@PathVariable Long id){
+    public ResponseEntity<?> deletarMovimentacao(@PathVariable Long id){
         try {
-            boolean removido = this.movimentacaoEstoqueService.deletar(id);
+            boolean removido = this.movimentacaoService.deletar(id);
 
             if (!removido){
                 return ResponseEntity.notFound().build();

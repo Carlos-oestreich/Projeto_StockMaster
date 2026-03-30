@@ -1,9 +1,9 @@
 package br.edu.ifpr.bsi.projetointegradorprog.services;
 
-import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.MovimentacaoEstoque;
+import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
 import br.edu.ifpr.bsi.projetointegradorprog.model.produto.Produto;
 import br.edu.ifpr.bsi.projetointegradorprog.model.usuario.Usuario;
-import br.edu.ifpr.bsi.projetointegradorprog.repositories.MovimentacaoEstoqueRepository;
+import br.edu.ifpr.bsi.projetointegradorprog.repositories.MovimentacaoRepository;
 import br.edu.ifpr.bsi.projetointegradorprog.repositories.ProdutoRepository;
 import br.edu.ifpr.bsi.projetointegradorprog.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class MovimentacaoEstoqueService {
+public class MovimentacaoService {
 
     @Autowired
-    private MovimentacaoEstoqueRepository movimentacaoEstoqueRepository;
+    private MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -26,7 +26,7 @@ public class MovimentacaoEstoqueService {
     private UsuarioRepository usuarioRepository;
 
     @Transactional
-    public MovimentacaoEstoque salvar(MovimentacaoEstoque movimentacaoEstoque){
+    public Movimentacao salvar(Movimentacao movimentacaoEstoque){
         Produto produto = produtoRepository.findById(movimentacaoEstoque.getProduto().getId()).orElse(null);
         Usuario usuario = usuarioRepository.findById(movimentacaoEstoque.getUsuario().getId()).orElse(null);
 
@@ -52,20 +52,20 @@ public class MovimentacaoEstoqueService {
         }
 
         produtoRepository.save(produto);
-        return movimentacaoEstoqueRepository.save(movimentacaoEstoque);
+        return movimentacaoRepository.save(movimentacaoEstoque);
     }
 
-    public List<MovimentacaoEstoque> listarTodos(){
-        return movimentacaoEstoqueRepository.findAll();
+    public List<Movimentacao> listarTodos(){
+        return movimentacaoRepository.findAll();
     }
 
-    public MovimentacaoEstoque buscarPorId(Long id){
-        return movimentacaoEstoqueRepository.findById(id).orElse(null);
+    public Movimentacao buscarPorId(Long id){
+        return movimentacaoRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public MovimentacaoEstoque atualizar(Long id, MovimentacaoEstoque novaMovimentacaoEstoque){
-        MovimentacaoEstoque movimentacaoBanco = movimentacaoEstoqueRepository.findById(id).orElse(null);
+    public Movimentacao atualizar(Long id, Movimentacao novaMovimentacaoEstoque){
+        Movimentacao movimentacaoBanco = movimentacaoRepository.findById(id).orElse(null);
 
         if(movimentacaoBanco == null){
             return null;
@@ -107,12 +107,12 @@ public class MovimentacaoEstoqueService {
         movimentacaoBanco.setSaldoAnterior(saldoAnteriorNovo);
         movimentacaoBanco.setSaldoAtual(produtoNovo.getQuantidadeEstoque());
 
-        return movimentacaoEstoqueRepository.save(movimentacaoBanco);
+        return movimentacaoRepository.save(movimentacaoBanco);
     }
 
     @Transactional
     public boolean deletar(Long id){
-        MovimentacaoEstoque movimentacaoBanco = movimentacaoEstoqueRepository.findById(id).orElse(null);
+        Movimentacao movimentacaoBanco = movimentacaoRepository.findById(id).orElse(null);
 
         if(movimentacaoBanco == null){
             return false;
@@ -126,21 +126,21 @@ public class MovimentacaoEstoqueService {
         reverterMovimentacao(produto, movimentacaoBanco.getTipo(), movimentacaoBanco.getQuantidade());
 
         produtoRepository.save(produto);
-        movimentacaoEstoqueRepository.delete(movimentacaoBanco);
+        movimentacaoRepository.delete(movimentacaoBanco);
 
         return true;
     }
 
-    public List<MovimentacaoEstoque> buscarPorTipo(String tipo){
-        return movimentacaoEstoqueRepository.findByTipo(tipo);
+    public List<Movimentacao> buscarPorTipo(String tipo){
+        return movimentacaoRepository.findByTipo(tipo);
     }
 
-    public List<MovimentacaoEstoque> buscarPorQuantidadeMaiorIgual(Integer quantidade){
-        return movimentacaoEstoqueRepository.getAllByQuantidadeMaiorIgual(quantidade);
+    public List<Movimentacao> buscarPorQuantidadeMaiorIgual(Integer quantidade){
+        return movimentacaoRepository.getAllByQuantidadeMaiorIgual(quantidade);
     }
 
-    public List<MovimentacaoEstoque> buscarPorTipoLimit(String tipo, int limit){
-        return movimentacaoEstoqueRepository.getAllByTipoLimit(tipo, limit);
+    public List<Movimentacao> buscarPorTipoLimit(String tipo, int limit){
+        return movimentacaoRepository.getAllByTipoLimit(tipo, limit);
     }
 
     private void aplicarMovimentacao(Produto produto, String tipo, Integer quantidade){

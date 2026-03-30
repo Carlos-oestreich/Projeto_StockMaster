@@ -3,12 +3,15 @@ package br.edu.ifpr.bsi.projetointegradorprog.model.produto;
 import br.edu.ifpr.bsi.projetointegradorprog.model.GenericModel;
 import br.edu.ifpr.bsi.projetointegradorprog.model.categoria.Categoria;
 import br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor.Fornecedor;
+import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,12 +37,14 @@ public class Produto extends GenericModel {
     private LocalDateTime dataCadastro;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_profuto")
+    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "fornecedor_produto")
+    @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
 
+    @OneToMany(mappedBy = "produto")
+    private List<Movimentacao> movimentacoes = new ArrayList<>();
 
 }

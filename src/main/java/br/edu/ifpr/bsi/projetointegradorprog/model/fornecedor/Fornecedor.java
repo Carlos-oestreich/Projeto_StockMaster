@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,7 +26,7 @@ public class Fornecedor extends GenericModel {
     @Column(name = "ativo_fornecedor")
     private Boolean ativo;
 
-
     @OneToMany(mappedBy = "fornecedor")
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
+
 }

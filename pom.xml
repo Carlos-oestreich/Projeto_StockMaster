@@ -12,8 +12,8 @@
     <artifactId>ProjetoIntegradorProg</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Projeto Integrador Prog</name>
-    <description>Projeto Integrador Prog</description>
+    <name>StockMaster</name>
+    <description> Um sistema de gestão de estoque </description>
     <url/>
     <licenses>
         <license/>

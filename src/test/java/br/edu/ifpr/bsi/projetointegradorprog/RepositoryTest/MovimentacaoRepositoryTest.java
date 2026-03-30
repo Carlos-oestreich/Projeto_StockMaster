@@ -2,7 +2,7 @@ package br.edu.ifpr.bsi.projetointegradorprog.RepositoryTest;
 
 import br.edu.ifpr.bsi.projetointegradorprog.model.categoria.Categoria;
 import br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor.Fornecedor;
-import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.MovimentacaoEstoque;
+import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
 import br.edu.ifpr.bsi.projetointegradorprog.model.produto.Produto;
 import br.edu.ifpr.bsi.projetointegradorprog.model.usuario.Usuario;
 import br.edu.ifpr.bsi.projetointegradorprog.repositories.*;
@@ -18,10 +18,10 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-public class MovimentacaoEstoqueRepositoryTest {
+public class MovimentacaoRepositoryTest {
 
     @Autowired
-    private MovimentacaoEstoqueRepository movimentacaoEstoqueRepository;
+    private MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
     private ProdutoRepository produtoRepository;
@@ -85,7 +85,7 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("ENTRADA");
         movimentacao.setQuantidade(10);
         movimentacao.setObservacao("Entrada inicial");
@@ -95,9 +95,9 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        MovimentacaoEstoque movimentacaoInserida = movimentacaoEstoqueRepository.save(movimentacao);
+        Movimentacao movimentacaoInserida = movimentacaoRepository.save(movimentacao);
 
-        MovimentacaoEstoque movimentacaoEncontrada = movimentacaoEstoqueRepository.findById(movimentacaoInserida.getId()).orElse(null);
+        Movimentacao movimentacaoEncontrada = movimentacaoRepository.findById(movimentacaoInserida.getId()).orElse(null);
         Assertions.assertNotNull(movimentacaoEncontrada, "A movimentcao nao foi finalizada");
 
     }
@@ -107,7 +107,7 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("SAIDA");
         movimentacao.setQuantidade(5);
         movimentacao.setObservacao("Saida teste");
@@ -117,10 +117,10 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        MovimentacaoEstoque movimentacaoAlterar = movimentacaoEstoqueRepository.save(movimentacao);
+        Movimentacao movimentacaoAlterar = movimentacaoRepository.save(movimentacao);
         movimentacaoAlterar.setObservacao("saida alterada");
 
-        MovimentacaoEstoque movimentacaoEncontrada = movimentacaoEstoqueRepository.findById(movimentacaoAlterar.getId()).orElse(null);
+        Movimentacao movimentacaoEncontrada = movimentacaoRepository.findById(movimentacaoAlterar.getId()).orElse(null);
         Assertions.assertEquals("saida alterada", movimentacaoEncontrada.getObservacao(), "A movimentacao nao foi alterada.");
 
     }
@@ -130,7 +130,7 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("ENTRADA");
         movimentacao.setQuantidade(20);
         movimentacao.setObservacao("Entrada para delete");
@@ -140,10 +140,10 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        MovimentacaoEstoque movimentacaoDeletar = movimentacaoEstoqueRepository.save(movimentacao);
-        movimentacaoEstoqueRepository.delete(movimentacaoDeletar);
+        Movimentacao movimentacaoDeletar = movimentacaoRepository.save(movimentacao);
+        movimentacaoRepository.delete(movimentacaoDeletar);
 
-        MovimentacaoEstoque movimentacaoDeletada = movimentacaoEstoqueRepository.findById(movimentacaoDeletar.getId()).orElse(null);
+        Movimentacao movimentacaoDeletada = movimentacaoRepository.findById(movimentacaoDeletar.getId()).orElse(null);
         Assertions.assertNull(movimentacaoDeletada, "A movimentacao nao foi deletada.");
 
     }
@@ -152,7 +152,7 @@ public class MovimentacaoEstoqueRepositoryTest {
     public void testListar(){
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("Entrada");
         movimentacao.setQuantidade(15);
         movimentacao.setObservacao("Entrada para listagem");
@@ -162,10 +162,10 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        movimentacaoEstoqueRepository.save(movimentacao);
+        movimentacaoRepository.save(movimentacao);
 
         long inicio = System.currentTimeMillis();
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueRepository.findAll();
+        List<Movimentacao> movimentacoes = movimentacaoRepository.findAll();
         long fim = System.currentTimeMillis();
 
         Assertions.assertFalse(movimentacoes.isEmpty(), "A movimentacoes nao encontrada.");
@@ -178,7 +178,7 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("SAIDA");
         movimentacao.setQuantidade(8);
         movimentacao.setObservacao("saida por venda");
@@ -188,9 +188,9 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        movimentacaoEstoqueRepository.save(movimentacao);
+        movimentacaoRepository.save(movimentacao);
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueRepository.findByTipo("SAIDA");
+        List<Movimentacao> movimentacoes = movimentacaoRepository.findByTipo("SAIDA");
         Assertions.assertFalse(movimentacoes.isEmpty(), "A movimentacoes nao encontrada.");
 
     }
@@ -200,7 +200,7 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo("ENTRADA");
         movimentacao.setQuantidade(15);
         movimentacao.setObservacao("ENTRADA de teste");
@@ -210,9 +210,9 @@ public class MovimentacaoEstoqueRepositoryTest {
         movimentacao.setProduto(produto);
         movimentacao.setUsuario(usuario);
 
-        movimentacaoEstoqueRepository.save(movimentacao);
+        movimentacaoRepository.save(movimentacao);
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueRepository.getAllByQuantidadeMaiorIgual(10);
+        List<Movimentacao> movimentacoes = movimentacaoRepository.getAllByQuantidadeMaiorIgual(10);
         Assertions.assertFalse(movimentacoes.isEmpty(), "nenhuma movimentacoes encontrada com quantidade maior ou igual ao valor informado.");
 
     }
@@ -222,10 +222,10 @@ public class MovimentacaoEstoqueRepositoryTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        List<MovimentacaoEstoque> movimentacoes = new ArrayList<>();
+        List<Movimentacao> movimentacoes = new ArrayList<>();
 
         for (int i = 0; i < 12; i++) {
-            MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+            Movimentacao movimentacao = new Movimentacao();
             movimentacao.setTipo("SAIDA");
             movimentacao.setQuantidade(2 + i);
             movimentacao.setObservacao("saida " + i);
@@ -238,9 +238,9 @@ public class MovimentacaoEstoqueRepositoryTest {
 
         }
 
-        movimentacaoEstoqueRepository.saveAll(movimentacoes);
+        movimentacaoRepository.saveAll(movimentacoes);
 
-        List<MovimentacaoEstoque> movimentacoesEncontradas = movimentacaoEstoqueRepository.getAllByTipoLimit("SAIDA", 10);
+        List<Movimentacao> movimentacoesEncontradas = movimentacaoRepository.getAllByTipoLimit("SAIDA", 10);
         Assertions.assertFalse(movimentacoesEncontradas.isEmpty(), "nenhuma movimentacao encontrada.");
         Assertions.assertEquals(10, movimentacoesEncontradas.size(), "o numero de movimentacoes encontradas nao corresponde ao limite definido.");
 

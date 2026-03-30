@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "tb_movimentacao_estoque")
-public class MovimentacaoEstoque extends GenericModel {
+@Table(name = "tb_movimentacao")
+public class Movimentacao extends GenericModel {
 
     @Column(name = "tipo_movimentacao")
     private String tipo;
@@ -29,11 +29,11 @@ public class MovimentacaoEstoque extends GenericModel {
     private Integer saldoAtual;
 
     @ManyToOne
-    @JoinColumn(name = "produto_movimentacao")
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_movimentacao")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
 

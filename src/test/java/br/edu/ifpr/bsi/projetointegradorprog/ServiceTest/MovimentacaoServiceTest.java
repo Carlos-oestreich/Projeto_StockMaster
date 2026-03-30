@@ -2,11 +2,11 @@ package br.edu.ifpr.bsi.projetointegradorprog.ServiceTest;
 
 import br.edu.ifpr.bsi.projetointegradorprog.model.categoria.Categoria;
 import br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor.Fornecedor;
-import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.MovimentacaoEstoque;
+import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
 import br.edu.ifpr.bsi.projetointegradorprog.model.produto.Produto;
 import br.edu.ifpr.bsi.projetointegradorprog.model.usuario.Usuario;
 import br.edu.ifpr.bsi.projetointegradorprog.repositories.*;
-import br.edu.ifpr.bsi.projetointegradorprog.services.MovimentacaoEstoqueService;
+import br.edu.ifpr.bsi.projetointegradorprog.services.MovimentacaoService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,13 +18,13 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-public class MovimentacaoEstoqueServiceTest {
+public class MovimentacaoServiceTest {
 
     @Autowired
-    private MovimentacaoEstoqueService movimentacaoEstoqueService;
+    private MovimentacaoService movimentacaoService;
 
     @Autowired
-    private MovimentacaoEstoqueRepository movimentacaoEstoqueRepository;
+    private MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
     private CategoriaRepository categoriaRepository;
@@ -80,8 +80,8 @@ public class MovimentacaoEstoqueServiceTest {
         return usuarioRepository.save(usuario);
     }
 
-    private MovimentacaoEstoque montarMovimentacao(String tipo, Integer quantidade, Produto produto, Usuario usuario) {
-        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+    private Movimentacao montarMovimentacao(String tipo, Integer quantidade, Produto produto, Usuario usuario) {
+        Movimentacao movimentacao = new Movimentacao();
         movimentacao.setTipo(tipo);
         movimentacao.setQuantidade(quantidade);
         movimentacao.setObservacao("Movimentação de teste");
@@ -95,9 +95,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
+        Movimentacao movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
 
-        MovimentacaoEstoque movimentacaoSalva = movimentacaoEstoqueService.salvar(movimentacao);
+        Movimentacao movimentacaoSalva = movimentacaoService.salvar(movimentacao);
         Produto produtoAtualizado = produtoRepository.findById(produto.getId()).orElse(null);
 
         Assertions.assertNotNull(movimentacaoSalva);
@@ -112,9 +112,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = montarMovimentacao("SAIDA", 3, produto, usuario);
+        Movimentacao movimentacao = montarMovimentacao("SAIDA", 3, produto, usuario);
 
-        MovimentacaoEstoque movimentacaoSalva = movimentacaoEstoqueService.salvar(movimentacao);
+        Movimentacao movimentacaoSalva = movimentacaoService.salvar(movimentacao);
         Produto produtoAtualizado = produtoRepository.findById(produto.getId()).orElse(null);
 
         Assertions.assertNotNull(movimentacaoSalva);
@@ -129,10 +129,10 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = montarMovimentacao("SAIDA", 50, produto, usuario);
+        Movimentacao movimentacao = montarMovimentacao("SAIDA", 50, produto, usuario);
 
         RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
-            movimentacaoEstoqueService.salvar(movimentacao);
+            movimentacaoService.salvar(movimentacao);
         });
 
         Assertions.assertEquals("Estoque insuficiente para saída.", exception.getMessage());
@@ -143,17 +143,17 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
-        MovimentacaoEstoque movimentacaoSalva = movimentacaoEstoqueService.salvar(movimentacao);
+        Movimentacao movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
+        Movimentacao movimentacaoSalva = movimentacaoService.salvar(movimentacao);
 
-        MovimentacaoEstoque novaMovimentacao = new MovimentacaoEstoque();
+        Movimentacao novaMovimentacao = new Movimentacao();
         novaMovimentacao.setTipo("SAIDA");
         novaMovimentacao.setQuantidade(3);
         novaMovimentacao.setObservacao("Movimentação atualizada");
         novaMovimentacao.setProduto(produto);
         novaMovimentacao.setUsuario(usuario);
 
-        MovimentacaoEstoque movimentacaoAtualizada = movimentacaoEstoqueService.atualizar(movimentacaoSalva.getId(), novaMovimentacao);
+        Movimentacao movimentacaoAtualizada = movimentacaoService.atualizar(movimentacaoSalva.getId(), novaMovimentacao);
         Produto produtoAtualizado = produtoRepository.findById(produto.getId()).orElse(null);
 
         Assertions.assertNotNull(movimentacaoAtualizada);
@@ -169,12 +169,12 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
-        MovimentacaoEstoque movimentacaoSalva = movimentacaoEstoqueService.salvar(movimentacao);
+        Movimentacao movimentacao = montarMovimentacao("ENTRADA", 5, produto, usuario);
+        Movimentacao movimentacaoSalva = movimentacaoService.salvar(movimentacao);
 
-        boolean deletou = movimentacaoEstoqueService.deletar(movimentacaoSalva.getId());
+        boolean deletou = movimentacaoService.deletar(movimentacaoSalva.getId());
         Produto produtoAtualizado = produtoRepository.findById(produto.getId()).orElse(null);
-        MovimentacaoEstoque movimentacaoEncontrada = movimentacaoEstoqueRepository.findById(movimentacaoSalva.getId()).orElse(null);
+        Movimentacao movimentacaoEncontrada = movimentacaoRepository.findById(movimentacaoSalva.getId()).orElse(null);
 
         Assertions.assertTrue(deletou);
         Assertions.assertNotNull(produtoAtualizado);
@@ -187,9 +187,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        MovimentacaoEstoque movimentacao = movimentacaoEstoqueService.salvar(montarMovimentacao("ENTRADA", 2, produto, usuario));
+        Movimentacao movimentacao = movimentacaoService.salvar(montarMovimentacao("ENTRADA", 2, produto, usuario));
 
-        MovimentacaoEstoque movimentacaoEncontrada = movimentacaoEstoqueService.buscarPorId(movimentacao.getId());
+        Movimentacao movimentacaoEncontrada = movimentacaoService.buscarPorId(movimentacao.getId());
 
         Assertions.assertNotNull(movimentacaoEncontrada);
         Assertions.assertEquals("ENTRADA", movimentacaoEncontrada.getTipo());
@@ -200,9 +200,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        movimentacaoEstoqueService.salvar(montarMovimentacao("ENTRADA", 1, produto, usuario));
+        movimentacaoService.salvar(montarMovimentacao("ENTRADA", 1, produto, usuario));
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueService.listarTodos();
+        List<Movimentacao> movimentacoes = movimentacaoService.listarTodos();
 
         Assertions.assertFalse(movimentacoes.isEmpty());
     }
@@ -212,9 +212,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        movimentacaoEstoqueService.salvar(montarMovimentacao("SAIDA", 2, produto, usuario));
+        movimentacaoService.salvar(montarMovimentacao("SAIDA", 2, produto, usuario));
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueService.buscarPorTipo("SAIDA");
+        List<Movimentacao> movimentacoes = movimentacaoService.buscarPorTipo("SAIDA");
 
         Assertions.assertFalse(movimentacoes.isEmpty());
     }
@@ -224,9 +224,9 @@ public class MovimentacaoEstoqueServiceTest {
         Produto produto = criarProduto();
         Usuario usuario = criarUsuario();
 
-        movimentacaoEstoqueService.salvar(montarMovimentacao("ENTRADA", 8, produto, usuario));
+        movimentacaoService.salvar(montarMovimentacao("ENTRADA", 8, produto, usuario));
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueService.buscarPorQuantidadeMaiorIgual(5);
+        List<Movimentacao> movimentacoes = movimentacaoService.buscarPorQuantidadeMaiorIgual(5);
 
         Assertions.assertFalse(movimentacoes.isEmpty());
     }
@@ -237,10 +237,10 @@ public class MovimentacaoEstoqueServiceTest {
         Usuario usuario = criarUsuario();
 
         for (int i = 0; i < 12; i++) {
-            movimentacaoEstoqueService.salvar(montarMovimentacao("ENTRADA", 1, produto, usuario));
+            movimentacaoService.salvar(montarMovimentacao("ENTRADA", 1, produto, usuario));
         }
 
-        List<MovimentacaoEstoque> movimentacoes = movimentacaoEstoqueService.buscarPorTipoLimit("ENTRADA", 10);
+        List<Movimentacao> movimentacoes = movimentacaoService.buscarPorTipoLimit("ENTRADA", 10);
 
         Assertions.assertFalse(movimentacoes.isEmpty());
         Assertions.assertEquals(10, movimentacoes.size());
