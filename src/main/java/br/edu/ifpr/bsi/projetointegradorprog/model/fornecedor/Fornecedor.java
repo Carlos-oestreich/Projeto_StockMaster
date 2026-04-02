@@ -2,6 +2,7 @@ package br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor;
 
 import br.edu.ifpr.bsi.projetointegradorprog.model.GenericModel;
 import br.edu.ifpr.bsi.projetointegradorprog.model.produto.Produto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Fornecedor extends GenericModel {
     private Boolean ativo;
 
     @OneToMany(mappedBy = "fornecedor")
+    @JsonIgnore
     private List<Produto> produtos = new ArrayList<>();
 
 }

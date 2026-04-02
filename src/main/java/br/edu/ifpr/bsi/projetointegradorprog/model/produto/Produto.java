@@ -4,6 +4,7 @@ import br.edu.ifpr.bsi.projetointegradorprog.model.GenericModel;
 import br.edu.ifpr.bsi.projetointegradorprog.model.categoria.Categoria;
 import br.edu.ifpr.bsi.projetointegradorprog.model.fornecedor.Fornecedor;
 import br.edu.ifpr.bsi.projetointegradorprog.model.movimentacaoEstoque.Movimentacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +46,7 @@ public class Produto extends GenericModel {
     private Fornecedor fornecedor;
 
     @OneToMany(mappedBy = "produto")
+    @JsonIgnore
     private List<Movimentacao> movimentacoes = new ArrayList<>();
 
 }
