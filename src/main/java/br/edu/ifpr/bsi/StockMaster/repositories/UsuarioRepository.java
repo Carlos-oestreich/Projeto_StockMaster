@@ -5,20 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByEmail(String email);
+    List<Usuario> findByEmpresaId(Long empresaId);
 
-    List<Usuario> findByNome(String nome);
-
-    List<Usuario> findByEmail(String email);
-
-    @Query("SELECT u FROM Usuario u WHERE u.perfil = :perfil")
-    List<Usuario> getAllByPerfil(@Param("perfil") String perfil);
-
-    @Query(nativeQuery = true, value = "SELECT * FROM tb_usuario u WHERE u.nome_usuario LIKE %:nome% LIMIT :limit")
-    List<Usuario> getAllByNomeLikeLimit(@Param("nome") String nome, @Param("limit") int limit);
-
+    @Query("SELECT u FROM Usuario u WHERE u.perfil = :perfil AND u.empresa.id = :empresaId")
+    List<Usuario> getAllByPerfilAndEmpresaId(@Param("perfil") String perfil, @Param("empresaId") Long empresaId);
 }

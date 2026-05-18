@@ -6,6 +6,7 @@ public record UsuarioRequestDTO(
         String senha,
         String perfil,
         String matricula,
+        String cpf,
         Boolean ativo
 ) {
 }

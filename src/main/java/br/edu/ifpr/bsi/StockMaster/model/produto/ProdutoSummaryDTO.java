@@ -10,9 +10,11 @@ public record ProdutoSummaryDTO(
         Long id,
         String sku,
         String nome,
+        String descricao,
         BigDecimal preco,
         String marca,
         Integer quantidadeEstoque,
+        Integer quantidadeMinima,
         CategoriaSummaryDTO categoria,
         FornecedorSummaryDTO fornecedor
 ) {

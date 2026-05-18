@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorController {
@@ -19,28 +19,33 @@ public class FornecedorController {
     private FornecedorService fornecedorService;
 
     @GetMapping
-    public ResponseEntity<List<FornecedorSummaryDTO>> listarFornecedores() {
-        return ResponseEntity.ok(this.fornecedorService.listarTodos());
+    public ResponseEntity<List<FornecedorSummaryDTO>> listarFornecedores(
+            @RequestHeader("X-Empresa-Id") Long empresaId) {
+        return ResponseEntity.ok(fornecedorService.listarTodos(empresaId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<FornecedorDetailDTO> buscarFornecedorPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(this.fornecedorService.buscarPorId(id));
+        return ResponseEntity.ok(fornecedorService.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<FornecedorDetailDTO> cadastrarFornecedor(@RequestBody FornecedorRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.fornecedorService.salvar(request));
+    public ResponseEntity<FornecedorDetailDTO> cadastrarFornecedor(
+            @RequestBody FornecedorRequestDTO request,
+            @RequestHeader("X-Empresa-Id") Long empresaId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(fornecedorService.salvar(request, empresaId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FornecedorDetailDTO> atualizarFornecedor(@PathVariable Long id, @RequestBody FornecedorRequestDTO request) {
-        return ResponseEntity.ok(this.fornecedorService.atualizar(id, request));
+    public ResponseEntity<FornecedorDetailDTO> atualizarFornecedor(
+            @PathVariable Long id,
+            @RequestBody FornecedorRequestDTO request) {
+        return ResponseEntity.ok(fornecedorService.atualizar(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarFornecedor(@PathVariable Long id) {
-        this.fornecedorService.deletar(id);
+        fornecedorService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 }

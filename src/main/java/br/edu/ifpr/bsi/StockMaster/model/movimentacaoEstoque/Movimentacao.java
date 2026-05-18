@@ -1,18 +1,15 @@
 package br.edu.ifpr.bsi.StockMaster.model.movimentacaoEstoque;
 
 import br.edu.ifpr.bsi.StockMaster.model.GenericModel;
+import br.edu.ifpr.bsi.StockMaster.model.empresa.Empresa;
 import br.edu.ifpr.bsi.StockMaster.model.produto.Produto;
 import br.edu.ifpr.bsi.StockMaster.model.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_movimentacao")
+@Getter @Setter @Entity @Table(name = "tb_movimentacao")
 public class Movimentacao extends GenericModel {
 
     @Column(name = "tipo_movimentacao")
@@ -36,5 +33,7 @@ public class Movimentacao extends GenericModel {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 }

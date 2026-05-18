@@ -14,11 +14,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @EqualsAndHashCode
-
 public class GenericModel implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 }

@@ -2,22 +2,19 @@ package br.edu.ifpr.bsi.StockMaster.model.produto;
 
 import br.edu.ifpr.bsi.StockMaster.model.GenericModel;
 import br.edu.ifpr.bsi.StockMaster.model.categoria.Categoria;
+import br.edu.ifpr.bsi.StockMaster.model.empresa.Empresa;
 import br.edu.ifpr.bsi.StockMaster.model.fornecedor.Fornecedor;
 import br.edu.ifpr.bsi.StockMaster.model.movimentacaoEstoque.Movimentacao;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_produto")
+@Getter @Setter @Entity @Table(name = "tb_produto")
 public class Produto extends GenericModel {
 
     @Column(name = "sku_produto", unique = true, nullable = false)
@@ -45,8 +42,11 @@ public class Produto extends GenericModel {
     @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
+
     @OneToMany(mappedBy = "produto")
     @JsonIgnore
     private List<Movimentacao> movimentacoes = new ArrayList<>();
-
 }

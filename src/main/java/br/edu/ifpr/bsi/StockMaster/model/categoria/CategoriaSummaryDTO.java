@@ -5,6 +5,7 @@ public record CategoriaSummaryDTO(
         Long id,
         String nome,
         String setor,
+        String codigoInterno,
         Boolean ativo
 ) {
 }

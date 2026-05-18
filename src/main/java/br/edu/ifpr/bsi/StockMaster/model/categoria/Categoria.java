@@ -1,16 +1,12 @@
 package br.edu.ifpr.bsi.StockMaster.model.categoria;
 
 import br.edu.ifpr.bsi.StockMaster.model.GenericModel;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import br.edu.ifpr.bsi.StockMaster.model.empresa.Empresa;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_categoria")
+@Getter @Setter @Entity @Table(name = "tb_categoria")
 public class Categoria extends GenericModel {
 
     @Column(name = "nome_categoria")
@@ -23,4 +19,8 @@ public class Categoria extends GenericModel {
     private String codigoInterno;
     @Column(name = "ativo_categoria")
     private Boolean ativo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 }

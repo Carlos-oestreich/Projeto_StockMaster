@@ -1,19 +1,16 @@
 package br.edu.ifpr.bsi.StockMaster.model.fornecedor;
 
 import br.edu.ifpr.bsi.StockMaster.model.GenericModel;
+import br.edu.ifpr.bsi.StockMaster.model.empresa.Empresa;
 import br.edu.ifpr.bsi.StockMaster.model.produto.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@Entity
-@Table(name = "tb_fornecedor")
+@Getter @Setter @Entity @Table(name = "tb_fornecedor")
 public class Fornecedor extends GenericModel {
 
     @Column(name = "nome_fornecedor")
@@ -27,8 +24,11 @@ public class Fornecedor extends GenericModel {
     @Column(name = "ativo_fornecedor")
     private Boolean ativo;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
+
     @OneToMany(mappedBy = "fornecedor")
     @JsonIgnore
     private List<Produto> produtos = new ArrayList<>();
-
 }

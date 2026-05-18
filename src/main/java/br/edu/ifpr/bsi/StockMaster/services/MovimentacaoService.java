@@ -7,6 +7,7 @@ import br.edu.ifpr.bsi.StockMaster.model.movimentacaoEstoque.MovimentacaoRequest
 import br.edu.ifpr.bsi.StockMaster.model.movimentacaoEstoque.MovimentacaoSummaryDTO;
 import br.edu.ifpr.bsi.StockMaster.model.produto.Produto;
 import br.edu.ifpr.bsi.StockMaster.model.usuario.Usuario;
+import br.edu.ifpr.bsi.StockMaster.repositories.EmpresaRepository;
 import br.edu.ifpr.bsi.StockMaster.repositories.MovimentacaoRepository;
 import br.edu.ifpr.bsi.StockMaster.repositories.ProdutoRepository;
 import br.edu.ifpr.bsi.StockMaster.repositories.UsuarioRepository;
@@ -26,6 +27,9 @@ public class MovimentacaoService {
     private MovimentacaoRepository movimentacaoRepository;
 
     @Autowired
+    private EmpresaRepository empresaRepository;
+
+    @Autowired
     private ProdutoRepository produtoRepository;
 
     @Autowired
@@ -35,19 +39,20 @@ public class MovimentacaoService {
     private MovimentacaoMapper movimentacaoMapper;
 
     @Transactional
-    public MovimentacaoDetailDTO salvar(MovimentacaoRequestDTO request) {
+    public MovimentacaoDetailDTO salvar(MovimentacaoRequestDTO request, Long empresaId) {
         Movimentacao movimentacaoEstoque = this.movimentacaoMapper.requestDTOToEntity(request);
         Produto produto = buscarProduto(movimentacaoEstoque);
         Usuario usuario = buscarUsuario(movimentacaoEstoque);
 
         Integer saldoAnterior = produto.getQuantidadeEstoque();
-
         aplicarMovimentacao(produto, movimentacaoEstoque.getTipo(), movimentacaoEstoque.getQuantidade());
 
         movimentacaoEstoque.setProduto(produto);
         movimentacaoEstoque.setUsuario(usuario);
         movimentacaoEstoque.setSaldoAnterior(saldoAnterior);
         movimentacaoEstoque.setSaldoAtual(produto.getQuantidadeEstoque());
+        movimentacaoEstoque.setEmpresa(empresaRepository.findById(empresaId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Empresa nao encontrada.")));
 
         if (movimentacaoEstoque.getDataMovimentacao() == null) {
             movimentacaoEstoque.setDataMovimentacao(LocalDateTime.now());
@@ -58,8 +63,8 @@ public class MovimentacaoService {
     }
 
     @Transactional(readOnly = true)
-    public List<MovimentacaoSummaryDTO> listarTodos() {
-        return this.movimentacaoRepository.findAll()
+    public List<MovimentacaoSummaryDTO> listarTodos(Long empresaId) {
+        return this.movimentacaoRepository.findByEmpresaId(empresaId)
                 .stream()
                 .map(this.movimentacaoMapper::entityToSummaryDTO)
                 .toList();
@@ -124,16 +129,18 @@ public class MovimentacaoService {
 
     @Transactional(readOnly = true)
     public List<MovimentacaoSummaryDTO> buscarPorQuantidadeMaiorIgual(Integer quantidade) {
-        return this.movimentacaoRepository.getAllByQuantidadeMaiorIgual(quantidade)
+        return this.movimentacaoRepository.findAll()
                 .stream()
+                .filter(m -> m.getQuantidade() >= quantidade)
                 .map(this.movimentacaoMapper::entityToSummaryDTO)
                 .toList();
     }
 
     @Transactional(readOnly = true)
     public List<MovimentacaoSummaryDTO> buscarPorTipoLimit(String tipo, int limit) {
-        return this.movimentacaoRepository.getAllByTipoLimit(tipo, limit)
+        return this.movimentacaoRepository.findByTipo(tipo)
                 .stream()
+                .limit(limit)
                 .map(this.movimentacaoMapper::entityToSummaryDTO)
                 .toList();
     }

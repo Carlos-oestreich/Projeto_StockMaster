@@ -5,22 +5,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
+    List<Produto> findByEmpresaId(Long empresaId);
+    List<Produto> findByNomeAndEmpresaId(String nome, Long empresaId);
+    Optional<Produto> findBySkuAndEmpresaId(String sku, Long empresaId);
 
-    List<Produto> findByNome(String nome);
+    @Query("SELECT p FROM Produto p WHERE p.empresa.id = :empresaId AND p.quantidadeEstoque < p.quantidadeMinima")
+    List<Produto> getAllProdutosEstoqueBaixoByEmpresaId(@Param("empresaId") Long empresaId);
 
-    Optional<Produto> findBySku(String sku);
-
-    @Query("SELECT p FROM Produto p WHERE p.quantidadeEstoque < p.quantidadeMinima")
-    List<Produto> getAllProdutosEstoqueBaixo();
-
-    @Query(nativeQuery = true, value = "SELECT * FROM tb_produto p WHERE p.nome_produto LIKE %:nome% LIMIT :limit")
-    List<Produto> getAllByNomeLikeLimit(@Param("nome") String nome, @Param("limit") int limit);
-
+    @Query(nativeQuery = true, value = "SELECT * FROM tb_produto p WHERE p.nome_produto LIKE %:nome% AND p.empresa_id = :empresaId LIMIT :limit")
+    List<Produto> getAllByNomeLikeLimitAndEmpresaId(@Param("nome") String nome, @Param("limit") int limit, @Param("empresaId") Long empresaId);
 }
