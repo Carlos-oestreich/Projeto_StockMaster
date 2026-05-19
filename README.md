@@ -38,7 +38,7 @@ O sistema está pronto para integração com o front-end em React.
 
 Também desenvolvemos este mesmo sistema usando PHP.  
 Confira o repositório:  
-[https://github.com/seu-usuario/StockMaster-php](https://github.com/seu-usuario/StockMaster-php)
+[https://github.com/seu-usuario/StockMaster-php](https://github.com/Carlos-oestreich/ProjetoStockMaster.git)
 
 ---
 
@@ -265,7 +265,7 @@ The system is ready for integration with a React frontend.
 
 We have also developed this same system using PHP.  
 Check out the repository:  
-[https://github.com/seu-usuario/StockMaster-php](https://github.com/seu-usuario/StockMaster-php)
+[https://github.com/seu-usuario/StockMaster-php](https://github.com/Carlos-oestreich/ProjetoStockMaster.git)
 
 ---
 
