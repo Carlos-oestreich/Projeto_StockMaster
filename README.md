@@ -1,5 +1,7 @@
 # 🚀 StockMaster - Backend
 
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+
 <p align="center">
   <img src="https://img.shields.io/badge/Java-25-blue?style=for-the-badge&logo=java">
   <img src="https://img.shields.io/badge/Spring%20Boot-4.x-6DB33F?style=for-the-badge&logo=springboot">
