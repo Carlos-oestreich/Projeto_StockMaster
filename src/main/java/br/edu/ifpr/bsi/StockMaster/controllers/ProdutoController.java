@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -20,7 +19,7 @@ public class ProdutoController {
 
     @GetMapping
     public ResponseEntity<List<ProdutoSummaryDTO>> listarTodos(
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.ok(produtoService.listarTodos(empresaId));
     }
 
@@ -32,7 +31,7 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity<ProdutoDetailDTO> cadastrarProduto(
             @RequestBody ProdutoRequestDTO request,
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.salvar(request, empresaId));
     }
 

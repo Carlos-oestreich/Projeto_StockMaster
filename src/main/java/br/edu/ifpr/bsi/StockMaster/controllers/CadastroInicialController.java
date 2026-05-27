@@ -2,7 +2,6 @@ package br.edu.ifpr.bsi.StockMaster.controllers;
 
 import br.edu.ifpr.bsi.StockMaster.model.cadastroInicial.CadastroInicialRequestDTO;
 import br.edu.ifpr.bsi.StockMaster.model.empresa.Empresa;
-import br.edu.ifpr.bsi.StockMaster.model.empresa.EmpresaDetailDTO;
 import br.edu.ifpr.bsi.StockMaster.model.usuario.Usuario;
 import br.edu.ifpr.bsi.StockMaster.repositories.EmpresaRepository;
 import br.edu.ifpr.bsi.StockMaster.repositories.UsuarioRepository;
@@ -18,7 +17,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cadastro-inicial")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class CadastroInicialController {
 
     @Autowired

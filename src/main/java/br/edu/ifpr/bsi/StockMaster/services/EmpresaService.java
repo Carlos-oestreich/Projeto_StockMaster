@@ -10,12 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class EmpresaService {
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Autowired
     private EmpresaRepository empresaRepository;
@@ -76,6 +81,21 @@ public class EmpresaService {
         empresa.setSuporte(request.suporte());
         empresa.setLogo(request.logo());
         empresa.setAtivo(true);
+        return toDTO(empresaRepository.save(empresa));
+    }
+
+    @Transactional
+    public EmpresaDetailDTO atualizarLogo(Long id, MultipartFile file) throws IOException {
+        Empresa empresa = empresaRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Empresa não encontrada"));
+
+        // Deletar logo antiga se existir
+        if (empresa.getLogo() != null) {
+            cloudinaryService.deletar(empresa.getLogo());
+        }
+
+        String url = cloudinaryService.upload(file);
+        empresa.setLogo(url);
         return toDTO(empresaRepository.save(empresa));
     }
 }

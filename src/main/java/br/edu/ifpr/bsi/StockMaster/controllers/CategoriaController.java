@@ -12,13 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 public class CategoriaController {
 
     @Autowired private CategoriaService categoriaService;
 
     @GetMapping
-    public ResponseEntity<List<CategoriaSummaryDTO>> listar(@RequestHeader("X-Empresa-Id") Long empresaId) {
+    public ResponseEntity<List<CategoriaSummaryDTO>> listar(@RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.ok(categoriaService.listarTodos(empresaId));
     }
 
@@ -29,7 +28,7 @@ public class CategoriaController {
 
     @PostMapping
     public ResponseEntity<CategoriaDetailDTO> salvar(@RequestBody CategoriaRequestDTO request,
-                                                     @RequestHeader("X-Empresa-Id") Long empresaId) {
+                                                     @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.salvar(request, empresaId));
     }
 

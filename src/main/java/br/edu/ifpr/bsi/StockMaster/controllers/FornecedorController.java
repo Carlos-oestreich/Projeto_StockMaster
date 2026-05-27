@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorController {
@@ -20,7 +19,7 @@ public class FornecedorController {
 
     @GetMapping
     public ResponseEntity<List<FornecedorSummaryDTO>> listarFornecedores(
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.ok(fornecedorService.listarTodos(empresaId));
     }
 
@@ -32,7 +31,7 @@ public class FornecedorController {
     @PostMapping
     public ResponseEntity<FornecedorDetailDTO> cadastrarFornecedor(
             @RequestBody FornecedorRequestDTO request,
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(fornecedorService.salvar(request, empresaId));
     }
 
