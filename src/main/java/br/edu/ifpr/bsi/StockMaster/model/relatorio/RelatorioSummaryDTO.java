@@ -9,8 +9,11 @@ public record RelatorioSummaryDTO(
         Integer totalSkus,
         Integer qtdEntradas,
         Integer qtdSaidas,
+        BigDecimal valorEntradas30dias,
+        BigDecimal valorSaidas30dias,
         List<TopProdutoSummaryDTO> topProdutos,
+        List<ValorCategoriaDTO> valorPorCategoria,
+        List<TopProdutoCategoriaDTO> topPorCategoria,
         List<ProdutoSummaryDTO> alertas,
-        List<ProdutoSummaryDTO> estoque
-) {
-}
+        List<ProdutoEstoqueDTO> estoque
+) {}

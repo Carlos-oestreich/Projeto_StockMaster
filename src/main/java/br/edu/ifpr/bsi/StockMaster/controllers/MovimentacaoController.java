@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
 @RestController
 @RequestMapping("/movimentacoes")
 public class MovimentacaoController {
@@ -23,14 +22,14 @@ public class MovimentacaoController {
 
     @GetMapping
     public ResponseEntity<List<MovimentacaoSummaryDTO>> listarMovimentacoes(
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.ok(movimentacaoService.listarTodos(empresaId));
     }
 
     @PostMapping
     public ResponseEntity<MovimentacaoDetailDTO> cadastrarMovimentacao(
             @RequestBody MovimentacaoRequestDTO request,
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(movimentacaoService.salvar(request, empresaId));
     }
 

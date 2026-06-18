@@ -46,7 +46,9 @@ public class FornecedorServiceTest {
 
     @Test
     public void testSalvar() {
-        FornecedorDetailDTO fornecedorSalvo = fornecedorService.salvar(
+        FornecedorDetailDTO fornecedorSalvo = fornecedorService
+
+                .salvar(
                 montarRequest("Fornecedor Alfa", "12345678000100", "alfa@email.com")
         );
 
@@ -129,6 +131,8 @@ public class FornecedorServiceTest {
 
         Assertions.assertFalse(fornecedores.isEmpty());
     }
+
+
 
     @Test
     public void testBuscarPorAtivoLimit() {

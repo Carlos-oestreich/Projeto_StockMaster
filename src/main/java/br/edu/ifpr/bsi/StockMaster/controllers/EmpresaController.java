@@ -6,10 +6,13 @@ import br.edu.ifpr.bsi.StockMaster.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/empresas")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"})
+@CrossOrigin(origins = "http://localhost:5173")
 public class EmpresaController {
 
     @Autowired
@@ -17,7 +20,7 @@ public class EmpresaController {
 
     @GetMapping
     public ResponseEntity<EmpresaDetailDTO> obterEmpresa(
-            @RequestHeader("X-Empresa-Id") Long empresaId) {
+            @RequestHeader("Empresa-Id") Long empresaId) {
         return ResponseEntity.ok(this.empresaService.obter(empresaId));
     }
 
@@ -26,5 +29,12 @@ public class EmpresaController {
             @PathVariable Long id,
             @RequestBody EmpresaRequestDTO request) {
         return ResponseEntity.ok(this.empresaService.atualizar(id, request));
+    }
+
+    @PostMapping(value = "/{id}/logo", consumes = "multipart/form-data")
+    public ResponseEntity<EmpresaDetailDTO> uploadLogo(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file) throws IOException {
+        return ResponseEntity.ok(empresaService.atualizarLogo(id, file));
     }
 }

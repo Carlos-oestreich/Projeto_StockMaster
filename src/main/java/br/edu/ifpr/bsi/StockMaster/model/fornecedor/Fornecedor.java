@@ -29,6 +29,5 @@ public class Fornecedor extends GenericModel {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "fornecedor")
-    @JsonIgnore
     private List<Produto> produtos = new ArrayList<>();
 }

@@ -47,6 +47,5 @@ public class Produto extends GenericModel {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "produto")
-    @JsonIgnore
     private List<Movimentacao> movimentacoes = new ArrayList<>();
 }
