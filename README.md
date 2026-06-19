@@ -1,6 +1,6 @@
 # 🚀 StockMaster - Backend
 
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Status](https://img.shields.io/badge/status-finalizado-brightgreen)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-25-blue?style=for-the-badge&logo=java">
