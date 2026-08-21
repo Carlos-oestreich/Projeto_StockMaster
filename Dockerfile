@@ -8,6 +8,6 @@ RUN mvn clean package -Dmaven.test.skip=true
 # Etapa 2: runtime
 FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/*.war app.war
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.war"]
