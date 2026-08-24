@@ -32,7 +32,7 @@ O **StockMaster** é um sistema completo de gestão de estoque desenvolvido como
 O sistema está pronto para integração com o front-end em React.
 
 > Repositório do front-end:  
-> [https://github.com/seu-usuario/stockmaster-frontend](https://github.com/Carlos-oestreich/StockMasterReact) 
+> https://github.com/Carlos-oestreich/StockMasterReact
 
 ---
 
@@ -40,7 +40,7 @@ O sistema está pronto para integração com o front-end em React.
 
 Também desenvolvemos este mesmo sistema usando PHP.  
 Confira o repositório:  
-[https://github.com/seu-usuario/StockMaster-php](https://github.com/Carlos-oestreich/ProjetoStockMaster.git)
+https://github.com/Carlos-oestreich/ProjetoStockMaster
 
 ---
 
