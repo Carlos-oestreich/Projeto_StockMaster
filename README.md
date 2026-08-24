@@ -40,7 +40,7 @@ O sistema está pronto para integração com o front-end em React.
 
 Também desenvolvemos este mesmo sistema usando PHP.  
 Confira o repositório:  
-[ProjetoStockMaster — PHP](https://github.com/Carlos-oestreich/ProjetoStockMaster)
+> [ProjetoStockMaster — PHP](https://github.com/Carlos-oestreich/StockMaster-PHP)
 
 ---
 
