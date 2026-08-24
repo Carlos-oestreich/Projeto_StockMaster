@@ -259,7 +259,7 @@ Este projeto foi desenvolvido para fins acadêmicos, mas segue boas práticas e 
 The system is ready for integration with a React frontend.
 
 > Frontend repository:  
-> [https://github.com/seu-usuario/stockmaster-frontend](https://github.com/Carlos-oestreich/StockMasterReact) <!-- Replace with the correct link after creating -->
+> [ProjetoStockMaster — React](https://github.com/Carlos-oestreich/StockMasterReact) <!-- Replace with the correct link after creating -->
 
 ---
 
@@ -267,7 +267,7 @@ The system is ready for integration with a React frontend.
 
 We have also developed this same system using PHP.  
 Check out the repository:  
-[https://github.com/seu-usuario/StockMaster-php](https://github.com/Carlos-oestreich/ProjetoStockMaster.git)
+[ProjetoStockMaster — PHP]](https://github.com/Carlos-oestreich/ProjetoStockMaster.git)
 
 ---
 
